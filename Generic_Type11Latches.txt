@@ -1,0 +1,21 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_Type11LongLatch.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+SELECT QMgr, Correl, 
+CHAR(LATCH_WAIT_TIME_11_US), 
+CHAR(LATCH_WAIT_COUNT_11), 
+CHAR(Start_Time_Date), CHAR(Start_Time_Time), 
+'2' AS Row_ID
+FROM MQSMF.WTAS
+ 
+WHERE 
+ (QMgr = '++QMGR' AND 
+LATCH_WAIT_TIME_11_US > 5000  
+)
+
+UNION
+SELECT 'QMgr','Correl',
+'Type 11 Latch Wait Time (Over 5000 mics.)',
+'Type 11 Wait Count',
+'Task Start Date','Task Start Time', 
+'1' AS Row_ID 
+FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID
+;

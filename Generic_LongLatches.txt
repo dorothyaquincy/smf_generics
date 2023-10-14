@@ -1,0 +1,24 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_Over10KLatch.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+SELECT QMgr, Correl, 
+CHAR(Longest_Latch), 
+CHAR(Max_Latch_Wait_Time_us), 
+CHAR(Max_Latch_Wait_ID), 
+CHAR(Start_Time_Date), CHAR(Start_Time_Time), 
+'2' AS Row_ID
+  
+FROM MQSMF.WTAS
+  
+WHERE 
+ (QMgr = '++QMGR' AND 
+Longest_Latch > '00000000000000000' AND 
+(Max_Latch_Wait_Time_us > 10000 ))
+
+UNION
+SELECT 'QMgr','Correl',
+'Longest_Latch',
+'Max Latch Wait Microseconds',
+'Max Latch Wait Type',
+'Start Date','Start Time', 
+'1' AS Row_ID 
+FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID
+;

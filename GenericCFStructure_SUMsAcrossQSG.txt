@@ -1,0 +1,34 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_StructureSums.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+Select 
+CHAR(Date) as Date1,
+LPAR as LPAR,
+QMGR as QMGR, 
+STRUCTURE_NAME AS Structure,
+CHAR(SUM(IXLLSTE_CALLS)) As Single_Calls,
+CHAR(SUM(IXLLSTE_CALLS_TIME_US)) AS Single_Calls_Time, 
+CHAR(SUM(IXLLSTM_CALLS)) As MULTI_Calls,
+CHAR(SUM(IXLLSTM_CALLS_TIME_US)) AS Multi_Calls_Time, 
+CHAR(MAX(MAX_IN_USE_ENTRIES)) AS Highest_Entries,
+CHAR(MAX(MAX_IN_USE_ELEMENTS)) AS Highest_ELEMENTS,
+CHAR(SUM(IXLLSTE_REDRIVES)) AS Single_Entry_Redrives,
+CHAR(SUM(IXLLSTM_REDRIVES)) AS Multi_Entry_Redrives,
+ '2' AS Row_ID 
+FROM MQSMF.QEST
+Group by Date, LPAR, QMGR, Structure_Name
+
+ 
+UNION 
+SELECT 'Date' AS DATE1, 
+'LPAR', 
+'QMgr', 
+'Structure Name',
+'List Structure Single Entry Calls',
+'Total time Spent in Single Entry Calls',
+'List Structure Multiple Entry Calls',
+'Total time Spent in Multiple Entry Calls',
+'Max In Use Entries',
+'Max In Use Elements',
+'Single Entry Redrives',
+'Multi Entry Redrives',
+'1' AS Row_ID FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, LPAR, QMgr, DATE1;
+

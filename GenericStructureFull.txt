@@ -1,0 +1,25 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_StructureFull.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+Select 
+CHAR(Date) AS DATE1, 
+CHAR(Time) AS TIME1, 
+LPAR, 
+QMgr, 
+MQ_Version, 
+CHAR(Interval_Duration),
+STRUCTURE_NAME,
+CHAR(STRUCTURE_NUMBER),
+CHAR(STRUCTURE_FULL) AS Structure_full_Count,
+CHAR(MAX_IN_USE_ENTRIES),
+CHAR(MAX_IN_USE_ELEMENTS),
+
+
+ '2' AS Row_ID FROM MQSMF.QEST WHERE (Structure_Full > 0) 
+UNION 
+SELECT 'Date' AS DATE1, 'Time' AS TIME1, 'LPAR', 'QMgr', 'MQ_Version', 'Interval_Duration',
+'Structure Name',
+'Structure Number',
+'List Structure Full Count',
+'Maximum In Use Entries',
+'Maximum In Use Elements', 
+'1' AS Row_ID FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, LPAR, QMgr, DATE1, TIME1  ;
+

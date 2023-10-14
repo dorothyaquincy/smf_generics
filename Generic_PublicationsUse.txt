@@ -1,0 +1,41 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_PublicationsUse.csv" OF DEL MODIFIED BY COLDEL, DECPT. 
+Select 
+CHAR(DATE)  AS DATE1, 
+CHAR(TIME) AS TIME1, 
+LPAR AS LPAR,
+QMGR as QMGR, 
+CHAR(INTERVAL_DURATION) AS Duration,
+CHAR(TOTAL_PUBLISHED_MSG) AS Total_Published_Msgs_CT,
+ 
+CHAR(PUBS_TOTAL_API)  AS Pubs_Total_API_CT, 
+CHAR(PUBS_TOTAL_ADMIN)  AS Pubs_Total_Admin_CT,  
+CHAR(PUBS_TOTAL_PROXY)  AS Pubs_Total_Proxy_CT,
+CHAR(PUBS_HIGH_WATER)  AS High_Pubs_CT, 
+CHAR(PUBS_LOW_WATER)  AS Low_Pubs_CT,  
+CHAR(PUBS_NO_SUBSCRIBER)  AS Pubs_No_Subscriber,
+CHAR(PUBLISH_ELAPSED_HIGH_WATER_US) AS Pubs_Longest_ET,
+CHAR(PUBLISH_ELAPSED_TOTAL_US) AS Pubs_Total_ET,
+'2' AS Row_ID 
+ 
+From MQSMF.QTST
+WHERE (LPAR = '++LPAR' AND QMGR = '++QMGR' ) 
+
+UNION 
+SELECT 'Date',
+'Time' AS TIME1,
+'LPAR', 
+'QMgr', 
+'Interval Duration',
+'Total Published Messages', 
+'Total Publication API Count',
+'Administrative Publications - Total',
+'Proxy Publications - Total',
+'High point of Publications',
+'Publications - Low Point',
+'Publications with no Subscriber to Topic',
+'Longest ET for publication in microseconds', 
+'Total ET for publications in microseconds',
+'1' AS Row_ID FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, DATE1, TIME1
+;
+
+

@@ -1,0 +1,52 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_DataMgrMsgMgr.csv" OF DEL MODIFIED BY COLDEL, DECPT. 
+SELECT CHAR(DM.Date) as DATE1, 
+CHAR(DM.Time) as Time1, 
+DM.QMGR AS QMGR_1, 
+CHAR(MM.Get) as MsgMgr_Get,
+CHAR(DM.Msg_Get) AS DataMGR_GET,
+CHAR(INT(MM.Get-DM.Msg_Get)) AS GET_Difference,
+CHAR(MM.Put) AS MsgMgr_Put, 
+CHAR(MM.Put1) AS MsgMgr_Put1,
+CHAR(INT(MM.Put + MM.Put1)) AS MM_Total_Puts,
+CHAR(DM.Msg_Put) AS DataMgr_Put, 
+CHAR(INT((MM.Put + MM.Put1) - DM.Msg_Put)) AS PUT_Difference,
+CHAR(Msg_Count) AS DataMgr_MsgCount,
+CHAR(DM.Object_Create) AS DataMgr_ObjCreate,
+CHAR(DM.Object_Delete) AS DataMgr_ObjDelete, 
+CHAR(DM.Object_Put) AS DataMgr_ObjPut,
+CHAR(DM.Object_Get) AS DataMgr_ObjGet,
+CHAR(DM.Object_Locate) AS DataMgr_ObjLocate,
+ '2' AS Row_ID 
+FROM MQSMF.QIST DM, MQSMF.QMST MM
+WHERE (DM.Date = MM.Date AND DM.Time = MM.Time AND DM.QMgr = '++QMGR' AND DM.QMgr = MM.QMgr)
+
+UNION
+SELECT 
+'DATE',                
+'TIME',                               
+'QMGR',                 
+'Message Mgr MQGETs', 
+'Data Mgr MQGETs', 
+'MQGET Difference',             
+'Message Mgr MQPUTs', 
+'Message Mgr MQPUT1s',
+'Total Message Mgr Puts', 
+'Data Mgr MQPUTs',
+'PUT Difference', 
+'MSG_COUNT',            
+'OBJECT CREATE ',             
+'OBJECT DELETE', 
+'OBJECT PUT',       
+'OBJECT GET',          
+'OBJECT LOCATE',       
+    
+ '1' AS Row_ID 
+FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, Date1, Time1
+;
+
+
+
+
+
+
+

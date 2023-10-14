@@ -1,0 +1,22 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\COMBO_ReadaheadAndGETs.csv" OF DEL MODIFIED BY COLDEL, DECPT.  SELECT 
+CHAR(DATE) AS Date1,  	     
+CHAR(TIME) as TIME1,  	  
+LPAR AS LPAR,  	  
+QMGR AS QMGR,  	  
+MQ_VERSION AS MQ_VERSION,  	  
+CHAR(INTERVAL_DURATION) AS DURATION, 	  
+CHAR(GETS_FROM_DISK) AS GETS_FROM_PAGESETS  	  ,
+CHAR(GETS_FROM_BUFFERPOOL) AS GETS_FROM_BUFFERPOOL,
+ '2' AS Row_ID 
+FROM MQSMF.QIST
+UNION
+SELECT ' Date ', 
+' Time ',
+' LPAR ', 
+' QMgr ',
+' MQ Version ',
+' Interval Duration ',
+' MQGets from Page Set ', 
+' MQGets from Buffer Pool ',
+'1' AS Row_ID 
+FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, LPAR, QMgr, DATE1, Time1;   	 

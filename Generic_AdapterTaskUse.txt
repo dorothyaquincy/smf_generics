@@ -1,0 +1,25 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_ADAP.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+Select CHAR(Date) AS DATE1, 
+
+LPAR, 
+QMgr, 
+CHAR(TASK_NUMBER) AS Task_Number,
+CHAR(SUM(REQUEST_COUNT)) AS Requests_Per_Day,
+CHAR(SUM(TASK_CPU_TIME_US)) AS Requests_CPU_Per_Day,
+CHAR(SUM(TASK_ELAPSED_TIME_US)) AS Requests_ET_Per_Day,
+CHAR(SUM(TASK_WAIT_TIME_US)) AS Requests_WT_Per_Day,
+
+ '2' AS Row_ID FROM MQSMF.QCTADP WHERE (LPAR = '++LPAR' AND QMGR = '++QMGR') 
+Group by Date, LPAR, QMgr, Task_Number 
+UNION 
+SELECT 'Date' AS DATE1, 'LPAR', 'QMgr',  
+'Adapter Task Number',
+'Total Requests for this Adapter Task',
+'Total CPU for this Adapter Task',
+'Total Elapsed Time for this Adapter Task',
+'Total Wait Time for this Adapter Task',
+
+'1' AS Row_ID FROM SYSIBM.SYSDUMMY1 
+ORDER BY Row_ID, DATE1
+;
+

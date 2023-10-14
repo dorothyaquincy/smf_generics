@@ -1,0 +1,27 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_DISP.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+Select CHAR(Date) AS DATE1, 
+
+LPAR, 
+QMgr, 
+CHAR(TASK_NUMBER) AS Task_Number,
+CHAR(SUM(REQUEST_COUNT)) AS Requests_Per_Day,
+CHAR(SUM(TASK_CPU_TIME_US)) AS Requests_CPU_Per_Day,
+CHAR(SUM(TASK_ELAPSED_TIME_US)) AS Requests_ET_Per_Day,
+CHAR(SUM(TASK_WAIT_TIME_US)) AS Requests_WT_Per_Day,
+CHAR(MAX(TASK_CHANNEL_COUNT)) AS Task_CHL_Count,
+
+ '2' AS Row_ID FROM MQSMF.QCTDSP WHERE (LPAR = '++LPAR' AND QMGR = '++QMGR') 
+Group by Date, LPAR, QMgr, Task_Number 
+UNION 
+SELECT 'Date' AS DATE1, 'LPAR', 'QMgr',  
+'Dispatcher Task Number',
+'Total Requests for this Dispatcher Task',
+'Total CPU for this Dispatcher Task',
+'Total Elapsed Time for this Dispatcher Task',
+'Total Wait Time for this Dispatcher Task',
+'Maximum channels for this dispather task for Day',
+
+'1' AS Row_ID FROM SYSIBM.SYSDUMMY1 
+ORDER BY Row_ID, DATE1
+;
+

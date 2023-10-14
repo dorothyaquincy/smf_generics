@@ -1,0 +1,33 @@
+EXPORT TO "E:\**CustomerPath**\Query_Results\++LPAR_++QMGR_NOCF.csv" OF DEL MODIFIED BY COLDEL, DECPT.  
+SELECT 
+Base_Name AS Base_Name,
+CF_STRUCTURE AS CF_STRUCTURE,
+CHAR(SUM(OPEN_ET_US)) AS Total_Open_ElapsedTime,
+CHAR(SUM(OPEN_CT_US)) AS Total_Open_CPUTime,
+CHAR(SUM(OPEN_Count)) AS Total_Open_Requests,
+CHAR(SUM(OPEN_NOCF)) AS Total_Open_NOCF,
+CHAR(INT(SUM(OPEN_Count)- SUM(OPEN_NOCF))) AS Total_Opens_With_CF_Access,
+CHAR(SUM(CLOSE_ET_US)) AS Total_Close_ElapsedTime,
+CHAR(SUM(CLOSE_CT_US)) AS Total_Close_CPUTime,
+CHAR(SUM(CLOSE_Count)) AS Total_Close_Requests,
+CHAR(SUM(CLOSE_NOCF)) AS Total_Close_NOCF,
+CHAR(INT(SUM(CLOSE_Count)- SUM(CLOSE_NOCF))) AS Total_Closes_With_CF_Access,
+ '2' AS Row_ID 
+FROM MQSMF.WQ
+Where (CF_STRUCTURE <> '        ' and QMGR = '++QMGR'  )  
+Group BY QMGR, Base_Name, CF_STRUCTURE
+UNION
+SELECT
+' Base Queue Name',
+' Coupling Facility Structure',
+' Total Open Elapsed Time',
+' Total Open CPU Time',
+' Total Opens',
+' Total Opens with NO CF Calls',
+' Total Opens with CF Calls', 
+' Total Close Elapsed Time',
+' Total Close CPU Time',
+' Total Closes',
+' Total Closes with NO CF Calls',
+' Total Closes with CF Calls', '1' AS Row_ID 
+FROM SYSIBM.SYSDUMMY1 ORDER BY Row_ID, Base_Name;
